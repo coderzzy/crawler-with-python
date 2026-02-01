@@ -1,7 +1,4 @@
-# python-uv-template
-使用uv管理的python项目模版
-- 使用 uv 建立python虚拟环境、管理安装包
-- 使用 requirements.in 管理依赖包，自动生成 requirements.txt 固定环境版本
+# 基于python的爬虫合集
 
 ## 项目启动
 ```
