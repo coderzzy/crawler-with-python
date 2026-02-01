@@ -7,6 +7,7 @@ import random
 import json
 import traceback
 from typing import TypedDict
+from utils.translator import translate_text_to_chinese
 
 
 def _get_html_content(url):
@@ -30,6 +31,7 @@ def _get_html_content(url):
     # cloudscraper 也可以配置浏览器特性，让它更像
     scraper = cloudscraper.create_scraper(
         browser={"browser": "chrome", "platform": "windows", "mobile": False},
+        auto_refresh_on_403=False,
     )
 
     try:
@@ -221,6 +223,9 @@ def get_kickstarter_sub_categories():
 class IdeaResult(TypedDict):
     id: str
     项目名称: str
+    项目名称_中: str
+    项目详情: str
+    项目详情_中: str
     众筹进度: str
     主分类名称: str
     子分类名称: str
@@ -280,6 +285,9 @@ def get_kickstarter_ideas_with_page_index(
             idea_result: IdeaResult = {
                 "id": project_data_dict.get("id"),
                 "项目名称": project_data_dict.get("name"),
+                "项目名称_中": "",
+                "项目详情": "",
+                "项目详情_中": "",
                 "众筹进度": project_data_dict.get("percent_funded"),
                 "主分类名称": sub_category["main_name"],
                 "子分类名称": sub_category["name"],
@@ -290,6 +298,32 @@ def get_kickstarter_ideas_with_page_index(
                 "宣传视频链接": (project_data_dict.get("video") or {}).get("hls"),
                 "完整原始信息": project_data_str,
             }
+            idea_result["项目名称_中"] = translate_text_to_chinese(
+                idea_result["项目名称"]
+            )
+            # 请求详情链接
+            # if idea_result["详情链接"]:
+            #     print(
+            #         f"项目{idea_result['项目名称']} 请求详情链接: {idea_result['详情链接']}"
+            #     )
+            #     try:
+            #         detail_content = _get_html_content(idea_result["详情链接"])
+            #         # 解析详情页的 HTML 内容
+            #         detail_soup = BeautifulSoup(detail_content, "lxml")
+            #         # 提取项目详情（例如，项目描述）
+            #         project_details = detail_soup.find("div", class_="story-content")
+            #         if project_details:
+            #             idea_result["项目详情"] = project_details.get_text(
+            #                 separator="\n", strip=True
+            #             )
+            #             idea_result["项目详情_中"] = translate_text_to_chinese(
+            #                 idea_result["项目详情"]
+            #             )
+            #     except Exception as e:
+            #         # 单个详情获取失败，不影响其他项目
+            #         print(
+            #             f"获取项目{idea_result['项目名称']}详情失败: {traceback.format_exc()}"
+            #         )
             idea_results.append(idea_result)
         return data_seed, total_page, idea_results
     except Exception as e:

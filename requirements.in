@@ -2,3 +2,4 @@ python-dotenv
 -e ./lib/cloudscraper-3.0.0
 beautifulsoup4
 lxml
+deep-translator

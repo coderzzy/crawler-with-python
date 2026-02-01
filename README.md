@@ -16,3 +16,6 @@ uv pip compile requirements.in -o requirements.txt
 uv pip sync requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 ```
+
+## based project
+- cloudscraper: https://github.com/VeNoMouS/cloudscraper
