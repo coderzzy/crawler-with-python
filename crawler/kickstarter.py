@@ -133,7 +133,7 @@ def get_kickstarter_ideas_with_page_index(
                 "完整原始信息": project_data_str,
             }
             idea_results.append(idea_result)
-            return data_seed, total_page, idea_results
+        return data_seed, total_page, idea_results
     except Exception as e:
         raise Exception(f"获取{url}失败: {traceback.format_exc()}")
 

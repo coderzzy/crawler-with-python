@@ -34,7 +34,8 @@ def run_kickstarter_crawler_and_save_csv(output_csv_path: str):
         # 数据存储到 csv 文件
         with open(output_csv_path, "a", encoding="utf-8") as f:
             writer = csv.writer(f)
-            writer.writerows(idea_results)
+            # 将字典列表转换为值列表，确保写入的是实际数据而不是键名
+            writer.writerows([list(result.values()) for result in idea_results])
 
         # 接着剩下的page
         for page in range(2, total_page + 1):
@@ -45,7 +46,8 @@ def run_kickstarter_crawler_and_save_csv(output_csv_path: str):
             # 数据追加存储到 csv 文件
             with open(output_csv_path, "a", encoding="utf-8") as f:
                 writer = csv.writer(f)
-                writer.writerows(page_idea_results)
+                # 将字典列表转换为值列表，确保写入的是实际数据而不是键名
+                writer.writerows([list(result.values()) for result in page_idea_results])
 
 
 if __name__ == "__main__":
