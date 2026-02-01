@@ -224,6 +224,8 @@ class IdeaResult(TypedDict):
     id: str
     项目名称: str
     项目名称_中: str
+    项目简介: str
+    项目简介_中: str
     项目详情: str
     项目详情_中: str
     众筹进度: str
@@ -286,6 +288,8 @@ def get_kickstarter_ideas_with_page_index(
                 "id": project_data_dict.get("id"),
                 "项目名称": project_data_dict.get("name"),
                 "项目名称_中": "",
+                "项目简介": project_data_dict.get("blurb"),
+                "项目简介_中": "",
                 "项目详情": "",
                 "项目详情_中": "",
                 "众筹进度": project_data_dict.get("percent_funded"),
@@ -300,6 +304,9 @@ def get_kickstarter_ideas_with_page_index(
             }
             idea_result["项目名称_中"] = translate_text_to_chinese(
                 idea_result["项目名称"]
+            )
+            idea_result["项目简介_中"] = translate_text_to_chinese(
+                idea_result["项目简介"]
             )
             # 请求详情链接
             # if idea_result["详情链接"]:
